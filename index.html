@@ -329,13 +329,16 @@ footer{margin-top:10vh;border-top:1px solid var(--line);padding:36px 0;display:f
   var nav=document.getElementById('nav'), hero=document.getElementById('hero');
   var heroImg=hero.querySelector('.bg'), projImgs=[].slice.call(document.querySelectorAll('.proj .ph img'));
   var vh=innerHeight, ticking=false;
+  var projEls=[].slice.call(document.querySelectorAll('.proj'));
   function update(){
     var y=scrollY;
     nav.classList.toggle('solid', y>vh*.75);
     if(heroImg){ heroImg.style.transform='translateY('+(y*.22)+'px)'; }
-    projImgs.forEach(function(img){
-      var r=img.closest('.proj').getBoundingClientRect();
-      if(r.bottom>0 && r.top<vh){
+    projEls.forEach(function(p){
+      var r=p.getBoundingClientRect();
+      if(r.top < vh*0.92){ p.classList.add('in'); }   // garantit l'apparition au défilement
+      var img=p.querySelector('.ph img');
+      if(img && r.bottom>0 && r.top<vh){
         var prog=(r.top-vh)/-(vh+r.height);
         img.style.transform='scale(1.1) translateY('+((prog-.5)*14)+'%)';
       }
@@ -351,6 +354,8 @@ footer{margin-top:10vh;border-top:1px solid var(--line);padding:36px 0;display:f
     en.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
   },{threshold:.16});
   document.querySelectorAll('.reveal,.proj').forEach(function(el){ io.observe(el); });
+  // Filet de sécurité : si l'observateur ne se déclenche pas, on révèle quand même
+  setTimeout(function(){ projEls.forEach(function(p){ if(!p.classList.contains('in')) p.classList.add('in'); }); }, 2600);
 
   /* ---- SERVICES HOVER IMAGE ---- */
   var hov=document.getElementById('srvHover'), hovImg=document.getElementById('srvHoverImg');
