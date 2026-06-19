@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>DECOBA Design — Architecture d'intérieur d'exception</title>
+<title>DECOBA Design — Architecture d'intérieur haut de gamme · Dakar</title>
+<meta name="description" content="DECOBA Design conçoit des espaces élégants, fonctionnels et visualisés en 3D avant réalisation : résidences, bureaux et espaces commerciaux. Dakar & Afrique de l'Ouest." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
@@ -11,361 +12,504 @@
 :root{
   --bg:#100E0C;
   --bg-2:#16130F;
+  --bg-3:#1B1714;
   --cream:#ECE5DA;
   --cream-dim:#B7AEA2;
   --muted:#7E756B;
   --rust:#C2693F;
   --rust-light:#D98A5E;
-  --line:rgba(236,229,218,.14);
+  --line:rgba(236,229,218,.13);
+  --maxw:1280px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--cream);font-family:'Jost',sans-serif;font-weight:300;line-height:1.65;overflow-x:hidden;cursor:none}
-@media(hover:none){body{cursor:auto}}
-h1,h2,h3,.serif{font-family:'Cormorant Garamond',serif;font-weight:400;line-height:1;letter-spacing:-.01em}
+body{background:var(--bg);color:var(--cream);font-family:'Jost',sans-serif;font-weight:300;line-height:1.7;overflow-x:hidden}
+h1,h2,h3,h4,.serif{font-family:'Cormorant Garamond',serif;font-weight:400;line-height:1.04;letter-spacing:-.01em}
 img{display:block;width:100%;height:100%;object-fit:cover}
 a{color:inherit;text-decoration:none}
-.wrap{max-width:1320px;margin:0 auto;padding:0 7vw}
-.eyebrow{font-size:.7rem;letter-spacing:.4em;text-transform:uppercase;color:var(--rust-light);font-weight:400;font-family:'Jost',sans-serif}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 7vw}
+.eyebrow{font-size:.7rem;letter-spacing:.38em;text-transform:uppercase;color:var(--rust-light);font-weight:400;font-family:'Jost',sans-serif}
+section{position:relative}
 
-/* ---------- CUSTOM CURSOR ---------- */
-.cursor,.cursor-dot{position:fixed;top:0;left:0;z-index:9999;pointer-events:none;border-radius:50%;mix-blend-mode:difference}
-.cursor{width:42px;height:42px;border:1px solid #fff;margin:-21px 0 0 -21px;transition:width .35s,height .35s,margin .35s,background .35s}
-.cursor-dot{width:6px;height:6px;background:#fff;margin:-3px 0 0 -3px}
-.cursor.grow{width:96px;height:96px;margin:-48px 0 0 -48px;background:#fff;border-color:#fff}
-.cursor .lbl{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:.6rem;letter-spacing:.2em;color:#000;opacity:0;text-transform:uppercase;font-family:'Jost',sans-serif}
-.cursor.grow .lbl{opacity:1}
-@media(hover:none){.cursor,.cursor-dot{display:none}}
-
-/* ---------- LOADER ---------- */
-#loader{position:fixed;inset:0;z-index:9000;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:18px}
-#loader .lname{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,6vw,4rem);letter-spacing:.2em;opacity:0;transform:translateY(14px);transition:opacity 1s,transform 1s}
-#loader .lsub{font-size:.7rem;letter-spacing:.4em;text-transform:uppercase;color:var(--rust-light);opacity:0;transition:opacity 1s .25s}
-#loader .bar{position:absolute;bottom:0;left:0;height:2px;width:0;background:var(--rust)}
-#loader.show .lname{opacity:1;transform:none}
-#loader.show .lsub{opacity:1}
-#loader.done{transform:translateY(-100%);transition:transform 1.1s cubic-bezier(.76,0,.24,1)}
-body.loading{height:100vh;overflow:hidden}
+/* ---------- BUTTONS ---------- */
+.btn{display:inline-block;font-family:'Jost',sans-serif;font-size:.76rem;letter-spacing:.2em;text-transform:uppercase;
+  padding:17px 40px;border-radius:2px;cursor:pointer;border:1px solid transparent;transition:.4s;white-space:nowrap}
+.btn--primary{background:var(--rust);color:#fff;border-color:var(--rust)}
+.btn--primary:hover{background:var(--rust-light);border-color:var(--rust-light)}
+.btn--ghost{background:transparent;color:var(--cream);border-color:rgba(236,229,218,.34)}
+.btn--ghost:hover{border-color:var(--cream);background:rgba(236,229,218,.06)}
+.btn--sm{padding:12px 26px;font-size:.7rem}
 
 /* ---------- NAV ---------- */
 nav{position:fixed;top:0;left:0;width:100%;z-index:80;display:flex;align-items:center;justify-content:space-between;
-    padding:26px 7vw;transition:padding .5s,background .5s,border-color .5s;border-bottom:1px solid transparent}
-nav.solid{background:rgba(16,14,12,.72);backdrop-filter:blur(16px);padding:16px 7vw;border-color:var(--line)}
+    padding:22px 7vw;transition:padding .5s,background .5s,border-color .5s;border-bottom:1px solid transparent}
+nav.solid{background:rgba(16,14,12,.82);backdrop-filter:blur(16px);padding:14px 7vw;border-color:var(--line)}
 nav .brand{font-family:'Cormorant Garamond',serif;font-size:1.5rem;letter-spacing:.22em}
 nav .brand em{font-style:italic;color:var(--rust-light);font-size:.78em}
-nav ul{display:flex;gap:40px;list-style:none}
-nav ul a{font-size:.74rem;letter-spacing:.18em;text-transform:uppercase;color:var(--cream-dim);position:relative;transition:color .4s}
-nav ul a:hover{color:var(--cream)}
-nav ul a::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:1px;background:var(--rust);transition:width .4s}
-nav ul a:hover::after{width:100%}
-@media(max-width:820px){nav ul{display:none}}
+nav .navlinks{display:flex;align-items:center;gap:34px;list-style:none}
+nav .navlinks a{font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--cream-dim);transition:color .35s;position:relative}
+nav .navlinks a:hover{color:var(--cream)}
+nav .navlinks a.nav-cta{color:#fff}
+@media(max-width:900px){nav .navlinks a:not(.nav-cta){display:none}}
 
 /* ---------- HERO ---------- */
-.hero{position:relative;height:100vh;width:100%;overflow:hidden}
-.hero .bg{position:absolute;inset:0;z-index:0;animation:kb 16s ease-out forwards}
-@keyframes kb{from{transform:scale(1.18)}to{transform:scale(1.04)}}
+.hero{position:relative;min-height:100vh;width:100%;overflow:hidden;display:flex;align-items:flex-end}
+.hero .bg{position:absolute;inset:0;z-index:0}
+.hero .bg img{transform:scale(1.06);will-change:transform}
 .hero::after{content:"";position:absolute;inset:0;z-index:1;
-  background:linear-gradient(180deg,rgba(16,14,12,.72),rgba(16,14,12,.25) 38%,rgba(16,14,12,.85))}
-.hero .inner{position:absolute;z-index:2;left:7vw;right:7vw;bottom:13vh}
-.hero .eyebrow{opacity:0;transform:translateY(20px);transition:opacity 1s .2s,transform 1s .2s}
-.hero h1{font-size:clamp(3rem,10vw,9rem);font-weight:300;margin:22px 0 0;letter-spacing:-.02em}
-.hero h1 em{font-style:italic;color:var(--rust-light)}
-.line{display:block;overflow:hidden}
-.line>span{display:block;transform:translateY(115%);transition:transform 1.2s cubic-bezier(.16,1,.3,1)}
-.hero.in .eyebrow{opacity:1;transform:none}
-.hero.in .line>span{transform:none}
-.hero.in .line:nth-child(2)>span{transition-delay:.12s}
-.scroll-ind{position:absolute;z-index:2;bottom:34px;left:50%;transform:translateX(-50%);
-  font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;color:var(--cream-dim);display:flex;flex-direction:column;align-items:center;gap:12px}
-.scroll-ind i{width:1px;height:54px;background:linear-gradient(var(--rust),transparent);animation:drop 2s infinite}
-@keyframes drop{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+  background:linear-gradient(180deg,rgba(16,14,12,.6),rgba(16,14,12,.25) 42%,rgba(16,14,12,.92))}
+.hero .inner{position:relative;z-index:2;padding:0 7vw 12vh;max-width:1180px}
+.hero h1{font-size:clamp(2.4rem,5.4vw,5rem);font-weight:400;margin:20px 0 24px;max-width:18ch}
+.hero .sub{font-size:clamp(1rem,1.4vw,1.2rem);color:var(--cream-dim);max-width:60ch;font-weight:300}
+.hero .secondary{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(1.3rem,2.2vw,1.9rem);color:var(--rust-light);margin-top:18px}
+.hero .cta-row{display:flex;gap:16px;flex-wrap:wrap;margin:34px 0 30px}
+.hero .credibility{font-size:.74rem;letter-spacing:.18em;text-transform:uppercase;color:var(--cream-dim);border-top:1px solid var(--line);padding-top:22px;max-width:760px}
+.scroll-ind{position:absolute;z-index:2;bottom:26px;right:7vw;font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;color:var(--cream-dim);display:flex;align-items:center;gap:12px}
+.scroll-ind i{width:42px;height:1px;background:var(--rust)}
 
-/* ---------- MARQUEE ---------- */
-.marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:26px 0;overflow:hidden;white-space:nowrap}
-.marquee .track{display:inline-block;animation:scrollx 28s linear infinite}
-.marquee span{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(1.6rem,3.4vw,2.8rem);color:var(--cream-dim);padding:0 2.2rem}
-.marquee b{color:var(--rust);font-style:normal}
-@keyframes scrollx{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+/* ---------- EXPERTISE BAND ---------- */
+.band{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-2)}
+.band .wrap{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 30px;padding:22px 7vw}
+.band span{font-size:.74rem;letter-spacing:.2em;text-transform:uppercase;color:var(--cream-dim)}
+.band span b{color:var(--rust);font-weight:400;margin-left:30px}
+.band span:first-child b{display:none}
 
-/* ---------- REVEAL ---------- */
-.reveal{opacity:0;transform:translateY(46px);transition:opacity 1.1s cubic-bezier(.16,1,.3,1),transform 1.1s cubic-bezier(.16,1,.3,1)}
-.reveal.in{opacity:1;transform:none}
-.d1{transition-delay:.12s}.d2{transition-delay:.24s}.d3{transition-delay:.36s}
+/* ---------- GENERIC SECTION ---------- */
+.sec{padding:13vh 0}
+.sec-head{max-width:60ch;margin-bottom:6vh}
+.sec-head h2{font-size:clamp(2rem,4.4vw,3.6rem);font-weight:400;margin-top:14px}
+.lead{font-size:1.05rem;color:var(--cream-dim);max-width:62ch;line-height:1.85}
+.lead + .lead{margin-top:20px}
 
-/* ---------- MANIFESTO ---------- */
-.manifesto{padding:13vh 0}
-.mani-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:6vw;align-items:center}
-.manifesto p{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(1.8rem,4vw,3.3rem);line-height:1.16;max-width:16ch;margin-top:18px}
-.manifesto p .em{font-style:italic;color:var(--rust-light)}
-.manifesto .sub{font-family:'Jost',sans-serif;font-size:1.02rem;color:var(--cream-dim);max-width:48ch;margin-top:34px;line-height:1.8}
-.mani-img{height:74vh;overflow:hidden;border-radius:3px;position:relative}
-.mani-img img{transform:scale(1.06)}
-.mani-img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(16,14,12,.55),rgba(16,14,12,0) 32%,rgba(16,14,12,0) 70%,rgba(16,14,12,.35))}
-.values{display:grid;grid-template-columns:repeat(3,1fr);gap:4vw;margin-top:13vh;padding-top:6vh;border-top:1px solid var(--line)}
-.values .val h4{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:400;color:var(--rust-light);margin-bottom:12px}
-.values .val .vn{font-size:.7rem;letter-spacing:.3em;color:var(--muted);display:block;margin-bottom:14px}
-.values .val p{font-size:.95rem;color:var(--cream-dim);line-height:1.8}
-@media(max-width:820px){.mani-grid{grid-template-columns:1fr;gap:5vh}.mani-img{height:50vh}.values{grid-template-columns:1fr;gap:5vh;margin-top:9vh}}
+/* ---------- INTRO / ABOUT ---------- */
+.intro .grid{display:grid;grid-template-columns:1fr 1fr;gap:6vw;align-items:center}
+.intro h2{font-size:clamp(2rem,4vw,3.4rem);font-weight:400}
+.intro h2 .em{font-style:italic;color:var(--rust-light)}
+.intro .img{height:64vh;border-radius:3px;overflow:hidden}
+@media(max-width:860px){.intro .grid{grid-template-columns:1fr;gap:5vh}.intro .img{height:46vh}}
+
+/* ---------- PROBLEME ---------- */
+.probleme{background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.probleme h2{font-size:clamp(1.9rem,3.8vw,3rem);max-width:20ch}
+.probleme .grid{display:grid;grid-template-columns:1fr 1.1fr;gap:6vw;align-items:start}
+@media(max-width:860px){.probleme .grid{grid-template-columns:1fr;gap:3vh}}
+
+/* ---------- POURQUOI ---------- */
+.pourquoi .cards{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--line);border:1px solid var(--line)}
+.pourquoi .card{background:var(--bg);padding:48px 44px}
+.pourquoi .card .n{font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--rust);display:block;margin-bottom:18px}
+.pourquoi .card h3{font-size:1.7rem;margin-bottom:14px}
+.pourquoi .card p{color:var(--cream-dim);font-size:.98rem}
+@media(max-width:860px){.pourquoi .cards{grid-template-columns:1fr}.pourquoi .card{padding:36px 28px}}
 
 /* ---------- SERVICES ---------- */
-.services{padding:9vh 0 11vh;position:relative}
-.services .head{margin-bottom:4vh}
-.services h2{font-size:clamp(2.2rem,5vw,4rem);margin-top:14px}
-.srv-row{display:flex;align-items:center;gap:30px;padding:34px 4px;border-top:1px solid var(--line);position:relative;transition:padding-left .5s}
-.srv-row:last-child{border-bottom:1px solid var(--line)}
-.srv-row .num{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--rust);width:46px;flex:none}
-.srv-row .ttl{font-family:'Cormorant Garamond',serif;font-size:clamp(1.5rem,3vw,2.4rem);flex:1;transition:color .4s,transform .5s}
-.srv-row .desc{font-size:.92rem;color:var(--muted);max-width:34ch;flex:none;width:38%;transition:color .4s}
-.srv-row:hover{padding-left:24px}
-.srv-row:hover .ttl{color:var(--rust-light)}
-.srv-row:hover .desc{color:var(--cream-dim)}
-.srv-hoverimg{position:fixed;z-index:70;width:300px;height:220px;pointer-events:none;opacity:0;transform:translate(-50%,-50%) scale(.85);
-  transition:opacity .4s,transform .4s;overflow:hidden;border-radius:3px;box-shadow:0 30px 60px rgba(0,0,0,.5)}
-.srv-hoverimg.on{opacity:1;transform:translate(-50%,-50%) scale(1)}
-@media(max-width:820px){.srv-row{flex-wrap:wrap;gap:8px}.srv-row .desc{width:100%;max-width:none}.srv-hoverimg{display:none}}
+.services .grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--line)}
+.srv{padding:38px 8px;border-bottom:1px solid var(--line);display:flex;gap:24px;transition:padding-left .45s,background .45s}
+.srv:nth-child(odd){border-right:1px solid var(--line);padding-right:46px}
+.srv:nth-child(even){padding-left:46px}
+.srv:hover{padding-left:24px;background:var(--bg-2)}
+.srv:nth-child(even):hover{padding-left:62px}
+.srv .n{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--rust);flex:none}
+.srv h3{font-size:1.5rem;margin-bottom:8px}
+.srv p{color:var(--muted);font-size:.94rem}
+@media(max-width:860px){.services .grid{grid-template-columns:1fr}.srv{padding:30px 6px!important;border-right:none!important}}
 
-/* ---------- PROJECTS ---------- */
-.projects{padding:8vh 0 4vh}
-.projects .head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:8vh}
-.projects h2{font-size:clamp(2.2rem,5vw,4rem);margin-top:14px}
-.proj{position:relative;height:86vh;margin-bottom:5vh;overflow:hidden;border-radius:3px;
-  clip-path:inset(100% 0 0 0);transition:clip-path 1.3s cubic-bezier(.16,1,.3,1)}
-.proj.in{clip-path:inset(0 0 0 0)}
-.proj .ph{position:absolute;inset:-8% 0;}
-.proj .ph img{transform:scale(1.08);transition:transform 1.2s cubic-bezier(.16,1,.3,1);will-change:transform}
-.proj:hover .ph img{transform:scale(1.14)}
-.proj::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.12),rgba(0,0,0,.62))}
-.proj .meta{position:absolute;z-index:2;left:0;bottom:0;padding:48px 5vw;width:100%}
-.proj .meta .tag{font-size:.66rem;letter-spacing:.3em;text-transform:uppercase;color:var(--rust-light)}
-.proj .meta h3{font-size:clamp(2rem,4.6vw,3.6rem);margin:12px 0 6px;font-weight:300}
-.proj .meta .loc{font-size:.92rem;letter-spacing:.05em;color:var(--cream-dim)}
+/* ---------- CTA STRIP ---------- */
+.cta-strip{text-align:center;padding:9vh 7vw;background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.cta-strip p{font-family:'Cormorant Garamond',serif;font-size:clamp(1.6rem,3.4vw,2.6rem);font-weight:400;max-width:24ch;margin:0 auto 30px}
+.cta-strip p .em{font-style:italic;color:var(--rust-light)}
+.cta-strip .small{font-family:'Jost',sans-serif;font-size:1rem;color:var(--cream-dim);max-width:52ch;margin:0 auto 30px}
+
+/* ---------- METHODE ---------- */
+.methode{background:var(--bg-2);border-bottom:1px solid var(--line)}
+.methode .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:2vh}
+.methode .step{background:var(--bg-2);padding:40px 34px}
+.methode .step .n{font-family:'Cormorant Garamond',serif;font-size:2.4rem;color:var(--rust);display:block;line-height:1;margin-bottom:18px;opacity:.85}
+.methode .step h3{font-size:1.4rem;margin-bottom:10px}
+.methode .step p{color:var(--cream-dim);font-size:.92rem}
+@media(max-width:900px){.methode .steps{grid-template-columns:1fr}}
+
+/* ---------- REALISATIONS ---------- */
+.projects .case{display:grid;grid-template-columns:1.15fr .85fr;gap:0;align-items:stretch;margin-bottom:7vh;border:1px solid var(--line);border-radius:3px;overflow:hidden}
+.projects .case:nth-child(even){grid-template-columns:.85fr 1.15fr}
+.projects .case:nth-child(even) .ph{order:2}
+.projects .case:nth-child(even) .txt{order:1}
+.projects .ph{position:relative;min-height:62vh;overflow:hidden}
+.projects .ph img{transform:scale(1.06);transition:transform 1.1s cubic-bezier(.16,1,.3,1)}
+.projects .case:hover .ph img{transform:scale(1.12)}
+.projects .txt{padding:54px 48px;display:flex;flex-direction:column;justify-content:center;background:var(--bg-2)}
+.projects .txt .tag{font-size:.66rem;letter-spacing:.28em;text-transform:uppercase;color:var(--rust-light)}
+.projects .txt h3{font-size:clamp(1.8rem,3vw,2.6rem);margin:10px 0 20px}
+.projects .txt .row{margin-bottom:16px}
+.projects .txt .row b{display:block;font-family:'Jost',sans-serif;font-weight:400;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.projects .txt .row span{color:var(--cream-dim);font-size:.96rem}
+@media(max-width:860px){.projects .case,.projects .case:nth-child(even){grid-template-columns:1fr}
+  .projects .case:nth-child(even) .ph{order:0}.projects .case:nth-child(even) .txt{order:0}
+  .projects .ph{min-height:46vh}.projects .txt{padding:36px 28px}}
 
 /* ---------- TOUR ---------- */
-.tour{padding:13vh 0;text-align:center;position:relative;background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.tour h2{font-size:clamp(2.4rem,6vw,5.2rem);font-weight:300;margin:18px 0 26px}
-.tour h2 em{font-style:italic;color:var(--rust-light)}
-.tour p{max-width:52ch;margin:0 auto 44px;color:var(--cream-dim)}
-
-/* ---------- BUTTONS ---------- */
-.btn{display:inline-block;border:1px solid var(--rust);color:var(--cream);padding:18px 46px;font-size:.74rem;
-  letter-spacing:.22em;text-transform:uppercase;border-radius:2px;position:relative;overflow:hidden;z-index:1;transition:color .5s}
-.btn::before{content:"";position:absolute;inset:0;background:var(--rust);z-index:-1;transform:translateY(101%);transition:transform .5s cubic-bezier(.16,1,.3,1)}
-.btn:hover::before{transform:translateY(0)}
+.tour{text-align:center;padding:14vh 7vw}
+.tour h2{font-size:clamp(2.2rem,5vw,4rem);font-weight:400;margin:16px 0 22px}
+.tour h2 .em{font-style:italic;color:var(--rust-light)}
+.tour p{max-width:54ch;margin:0 auto 34px;color:var(--cream-dim)}
 
 /* ---------- CONTACT ---------- */
-.contact{padding:13vh 0 0}
-.contact h2{font-size:clamp(2.8rem,9vw,8rem);font-weight:300;line-height:.96}
-.contact h2 em{font-style:italic;color:var(--rust-light)}
-.contact .grid{display:grid;grid-template-columns:1.2fr .8fr;gap:6vw;align-items:end;margin-top:6vh}
-.contact .info p{color:var(--cream-dim);margin-bottom:14px}
-.contact .info strong{color:var(--cream);font-weight:400}
-.contact .info a:hover{color:var(--rust-light)}
-@media(max-width:820px){.contact .grid{grid-template-columns:1fr;gap:6vh}}
-footer{margin-top:10vh;border-top:1px solid var(--line);padding:36px 0;display:flex;justify-content:space-between;
-  flex-wrap:wrap;gap:14px;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.contact{background:var(--bg-2);border-top:1px solid var(--line)}
+.contact .grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:6vw;align-items:start}
+.contact h2{font-size:clamp(2.4rem,5vw,4rem);font-weight:400}
+.contact h2 .em{font-style:italic;color:var(--rust-light)}
+.contact .intro-txt{color:var(--cream-dim);margin:22px 0 30px;max-width:46ch}
+.contact .direct{font-size:.95rem;color:var(--cream-dim);line-height:2}
+.contact .direct a:hover{color:var(--rust-light)}
+form .frow{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+form label{display:block;font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+form .field{margin-bottom:20px}
+form input,form select,form textarea{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--cream);
+  font-family:'Jost',sans-serif;font-size:.98rem;font-weight:300;padding:14px 16px;border-radius:2px;transition:border-color .3s}
+form input:focus,form select:focus,form textarea:focus{outline:none;border-color:var(--rust)}
+form textarea{resize:vertical;min-height:120px}
+form .file-note{font-size:.78rem;color:var(--muted);margin-top:6px}
+form .btn{border:none;width:100%;margin-top:6px}
+.form-msg{margin-top:16px;font-size:.92rem;color:var(--rust-light);min-height:1.2em}
+@media(max-width:860px){.contact .grid{grid-template-columns:1fr;gap:5vh}form .frow{grid-template-columns:1fr}}
+
+/* ---------- FOOTER ---------- */
+footer.ft{padding:9vh 7vw 40px;border-top:1px solid var(--line)}
+footer.ft .top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:40px;padding-bottom:6vh;border-bottom:1px solid var(--line)}
+footer.ft .brand{font-family:'Cormorant Garamond',serif;font-size:1.8rem;letter-spacing:.18em}
+footer.ft .brand em{font-style:italic;color:var(--rust-light);font-size:.8em}
+footer.ft .desc{color:var(--cream-dim);max-width:34ch;margin-top:14px;font-size:.95rem}
+footer.ft .coords{color:var(--cream-dim);font-size:.95rem;line-height:2}
+footer.ft .coords a:hover{color:var(--rust-light)}
+footer.ft .links{list-style:none;line-height:2.2}
+footer.ft .links a{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--cream-dim)}
+footer.ft .links a:hover{color:var(--cream)}
+footer.ft .bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:18px;padding-top:30px}
+footer.ft .bottom .mention{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+
+/* ---------- REVEAL ---------- */
+.reveal{opacity:0;transform:translateY(38px);transition:opacity 1s cubic-bezier(.16,1,.3,1),transform 1s cubic-bezier(.16,1,.3,1)}
+.reveal.in{opacity:1;transform:none}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.hero .bg img{transform:none}}
 </style>
 </head>
-<body class="loading">
-
-<!-- CURSOR -->
-<div class="cursor" id="cursor"><span class="lbl">Voir</span></div>
-<div class="cursor-dot" id="cursorDot"></div>
-
-<!-- LOADER -->
-<div id="loader">
-  <div class="lname">DECOBA <em style="font-style:italic;font-size:.7em;color:var(--rust-light)">design</em></div>
-  <div class="lsub">Architecture d'intérieur</div>
-  <div class="bar" id="loadBar"></div>
-</div>
+<body id="top">
 
 <!-- NAV -->
 <nav id="nav">
-  <div class="brand">DECOBA <em>design</em></div>
-  <ul>
-    <li><a href="#manifesto">Studio</a></li>
+  <a href="#top" class="brand">DECOBA <em>design</em></a>
+  <ul class="navlinks">
+    <li><a href="#top">Accueil</a></li>
     <li><a href="#services">Services</a></li>
     <li><a href="#projects">Réalisations</a></li>
+    <li><a href="#methode">Méthode</a></li>
     <li><a href="#contact">Contact</a></li>
+    <li><a href="#contact" class="btn btn--primary btn--sm nav-cta">Présenter mon projet</a></li>
   </ul>
 </nav>
 
 <!-- HERO -->
-<header class="hero" id="hero">
-  <div class="bg"><img src="img/hero.jpg" alt="Intérieur signature Decoba Design"></div>
+<header class="hero">
+  <div class="bg"><img src="img/hero.jpg" alt="Intérieur résidentiel haut de gamme conçu par DECOBA Design"></div>
   <div class="inner">
-    <div class="eyebrow">Dakar — International · Depuis le premier croquis</div>
-    <h1>
-      <span class="line"><span>Sublimer les espaces,</span></span>
-      <span class="line"><span><em>révéler les émotions.</em></span></span>
-    </h1>
+    <div class="eyebrow reveal">DECOBA Design · Cabinet d'architecture d'intérieur</div>
+    <h1 class="reveal d1">Architecture d'intérieur haut de gamme pour résidences, bureaux et espaces commerciaux.</h1>
+    <p class="sub reveal d2">DECOBA Design conçoit des espaces élégants, fonctionnels et parfaitement visualisés avant réalisation : aménagement intérieur, direction artistique, plans, rendus 3D et accompagnement projet.</p>
+    <p class="secondary reveal d2">Sublimer les espaces, révéler les émotions.</p>
+    <div class="cta-row reveal d3">
+      <a href="#contact" class="btn btn--primary">Présenter mon projet</a>
+      <a href="#projects" class="btn btn--ghost">Voir les réalisations</a>
+    </div>
+    <div class="credibility reveal d3">Architecture d'intérieur · Design 3D · Aménagement sur mesure · Dakar &amp; Afrique de l'Ouest</div>
   </div>
-  <div class="scroll-ind"><i></i>Faire défiler</div>
+  <div class="scroll-ind"><i></i>Découvrir</div>
 </header>
 
-<!-- MARQUEE -->
-<div class="marquee">
-  <div class="track" id="track">
-    <span>Architecture d'intérieur <b>·</b></span><span>Design sur-mesure <b>·</b></span><span>Home staging 3D <b>·</b></span><span>Modélisation 3D <b>·</b></span><span>Consultations <b>·</b></span>
-    <span>Architecture d'intérieur <b>·</b></span><span>Design sur-mesure <b>·</b></span><span>Home staging 3D <b>·</b></span><span>Modélisation 3D <b>·</b></span><span>Consultations <b>·</b></span>
+<!-- EXPERTISE BAND -->
+<div class="band">
+  <div class="wrap">
+    <span>Consultations</span>
+    <span><b>·</b>Architecture d'intérieur</span>
+    <span><b>·</b>Design sur mesure</span>
+    <span><b>·</b>Home staging 3D</span>
+    <span><b>·</b>Modélisation 3D</span>
   </div>
 </div>
 
-<!-- MANIFESTO -->
-<section class="manifesto" id="manifesto">
-  <div class="wrap mani-grid">
-    <div class="mani-text">
-      <div class="eyebrow reveal">Le studio</div>
-      <p class="reveal d1">Chaque projet est une <span class="em">œuvre</span> à part entière.</p>
-      <div class="sub reveal d2">DECOBA Design accompagne particuliers, entreprises et promoteurs immobiliers dans la transformation esthétique et stratégique de leurs intérieurs — en combinant créativité, expertise technique et raffinement. Nous valorisons l'identité de chaque client à travers des espaces uniques, pensés dans le moindre détail.</div>
+<!-- INTRO / À PROPOS -->
+<section class="sec intro" id="apropos">
+  <div class="wrap grid">
+    <div>
+      <div class="eyebrow reveal">À propos</div>
+      <h2 class="reveal d1">Chaque projet est une <span class="em">œuvre</span> à part entière.</h2>
+      <p class="lead reveal d2">DECOBA Design accompagne les particuliers, promoteurs et entreprises dans la conception d'espaces intérieurs élégants, fonctionnels et cohérents.</p>
+      <p class="lead reveal d2">Notre approche associe vision esthétique, maîtrise technique et visualisation 3D pour permettre à chaque client de se projeter clairement avant les travaux.</p>
     </div>
-    <div class="mani-img reveal d1"><img src="img/intro.jpg" alt="Intérieur Decoba Design"></div>
+    <div class="img reveal d1"><img src="img/intro.jpg" alt="Matières et direction artistique DECOBA Design"></div>
   </div>
-  <div class="wrap values">
-    <div class="val reveal"><span class="vn">01</span><h4>Sur-mesure</h4><p>Aucun projet identique. Chaque espace est dessiné autour de vous, de votre usage et de votre identité.</p></div>
-    <div class="val reveal d1"><span class="vn">02</span><h4>Le détail</h4><p>Matières, lumière, proportions : le luxe se joue dans la précision, jusqu'au dernier centimètre.</p></div>
-    <div class="val reveal d2"><span class="vn">03</span><h4>L'émotion</h4><p>Au-delà de l'esthétique, nous créons des lieux qui se vivent et qui marquent ceux qui les habitent.</p></div>
+</section>
+
+<!-- PROBLEME CLIENT -->
+<section class="sec probleme">
+  <div class="wrap grid">
+    <div>
+      <div class="eyebrow reveal">Avant de construire</div>
+      <h2 class="reveal d1">Un projet d'intérieur ne doit pas avancer dans le flou.</h2>
+    </div>
+    <div>
+      <p class="lead reveal d1">Mobilier mal dimensionné, circulation incohérente, mauvais choix de matériaux, éclairage négligé, budget mal anticipé : les erreurs de conception coûtent cher.</p>
+      <p class="lead reveal d2">Notre rôle est de structurer votre projet avant l'exécution, afin de vous aider à prendre les bonnes décisions dès le départ.</p>
+    </div>
+  </div>
+</section>
+
+<!-- POURQUOI DECOBA -->
+<section class="sec pourquoi">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow reveal">Notre différence</div>
+      <h2 class="reveal d1">Pourquoi choisir DECOBA Design ?</h2>
+    </div>
+    <div class="cards reveal">
+      <div class="card"><span class="n">01</span><h3>Vision esthétique &amp; maîtrise technique</h3><p>Nous ne travaillons pas uniquement l'apparence d'un espace. Nous pensons les usages, les volumes, la lumière, les circulations, les matériaux et la cohérence globale du projet.</p></div>
+      <div class="card"><span class="n">02</span><h3>Visualisation avant travaux</h3><p>Grâce aux rendus 3D réalistes, vous visualisez votre espace avant d'engager les dépenses lourdes. Vous pouvez valider, ajuster et décider avec plus de clarté.</p></div>
+      <div class="card"><span class="n">03</span><h3>Méthode claire</h3><p>Chaque projet suit une démarche structurée : analyse, direction artistique, plans, visualisation, dossier de conception et accompagnement selon vos besoins.</p></div>
+      <div class="card"><span class="n">04</span><h3>Accompagnement adapté</h3><p>Nous accompagnons les particuliers, promoteurs, agences immobilières et entreprises sur des projets résidentiels, professionnels et commerciaux.</p></div>
+    </div>
   </div>
 </section>
 
 <!-- SERVICES -->
-<section class="services wrap" id="services">
-  <div class="head">
-    <div class="eyebrow reveal">Savoir-faire</div>
-    <h2 class="reveal d1">Ce que nous créons</h2>
-  </div>
-  <div id="srvList">
-    <div class="srv-row reveal" data-img="img/intro.jpg"><div class="num">01</div><div class="ttl">Architecture d'intérieur</div><div class="desc">Conception globale, optimisation des volumes, de la lumière et de la circulation.</div></div>
-    <div class="srv-row reveal" data-img="img/proj-living.jpg"><div class="num">02</div><div class="ttl">Design & décoration sur-mesure</div><div class="desc">Univers esthétiques uniques, mobilier, luminaires et matières au service de votre identité.</div></div>
-    <div class="srv-row reveal" data-img="img/proj-bedroom.jpg"><div class="num">03</div><div class="ttl">Home staging 3D</div><div class="desc">Visualisation réaliste avant travaux pour vendre ou louer plus vite.</div></div>
-    <div class="srv-row reveal" data-img="img/proj-office.jpg"><div class="num">04</div><div class="ttl">Plans & modélisation 3D</div><div class="desc">Plans techniques détaillés et rendus photoréalistes immersifs.</div></div>
-    <div class="srv-row reveal" data-img="img/proj-kids.jpg"><div class="num">05</div><div class="ttl">Consultations personnalisées</div><div class="desc">Ateliers en visio ou présentiel, conseils matériaux, couleurs et agencements.</div></div>
+<section class="sec services" id="services">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow reveal">Nos expertises</div>
+      <h2 class="reveal d1">Ce que nous créons</h2>
+    </div>
+    <div class="grid reveal">
+      <div class="srv"><span class="n">01</span><div><h3>Architecture d'intérieur résidentielle</h3><p>Conception d'appartements, villas, séjours, chambres, cuisines, suites parentales et espaces de vie sur mesure.</p></div></div>
+      <div class="srv"><span class="n">02</span><div><h3>Bureaux &amp; espaces professionnels</h3><p>Aménagement de bureaux, salles de réunion, espaces d'accueil, lounges et environnements de travail premium.</p></div></div>
+      <div class="srv"><span class="n">03</span><div><h3>Design commercial</h3><p>Conception de restaurants, boutiques, salons, showrooms et espaces destinés à recevoir, vendre ou valoriser une marque.</p></div></div>
+      <div class="srv"><span class="n">04</span><div><h3>Visualisation 3D &amp; modélisation</h3><p>Plans, rendus photoréalistes, ambiances, matériaux et mobilier pour visualiser le projet avant réalisation.</p></div></div>
+      <div class="srv"><span class="n">05</span><div><h3>Home staging 3D</h3><p>Valorisation de biens immobiliers avant vente, location ou commercialisation grâce à des projections 3D réalistes.</p></div></div>
+      <div class="srv"><span class="n">06</span><div><h3>Consultation personnalisée</h3><p>Un accompagnement ciblé pour clarifier une idée, améliorer un espace, valider une direction ou préparer un projet.</p></div></div>
+    </div>
   </div>
 </section>
-<div class="srv-hoverimg" id="srvHover"><img id="srvHoverImg" src="" alt=""></div>
 
-<!-- PROJECTS -->
-<section class="projects wrap" id="projects">
-  <div class="head">
-    <div><div class="eyebrow reveal">Sélection de projets</div><h2 class="reveal d1">Réalisations</h2></div>
-    <p class="reveal d2" style="max-width:30ch;color:var(--cream-dim)">Résidentiel & tertiaire — une sélection d'espaces conçus sur mesure.</p>
-  </div>
-
-  <div class="proj" data-proj><div class="ph"><img src="img/proj-living.jpg" alt=""></div>
-    <div class="meta"><div class="tag">Résidentiel · Appartement</div><h3>Séjour Contemporain</h3><div class="loc">Dakar, Sénégal — 2025</div></div></div>
-
-  <div class="proj" data-proj><div class="ph"><img src="img/proj-bedroom.jpg" alt=""></div>
-    <div class="meta"><div class="tag">Résidentiel · Suite</div><h3>Chambre Parentale</h3><div class="loc">Dakar, Sénégal — 2025</div></div></div>
-
-  <div class="proj" data-proj><div class="ph"><img src="img/proj-office.jpg" alt=""></div>
-    <div class="meta"><div class="tag">Tertiaire · Bureaux</div><h3>Espaces de Travail</h3><div class="loc">Projet corporate — 2025</div></div></div>
-
-  <div class="proj" data-proj><div class="ph"><img src="img/proj-kids.jpg" alt=""></div>
-    <div class="meta"><div class="tag">Résidentiel · Chambre enfant</div><h3>Univers Ludique</h3><div class="loc">Dakar, Sénégal — 2025</div></div></div>
+<!-- CTA après services -->
+<section class="cta-strip">
+  <p>Vous avez un espace à <span class="em">concevoir</span> ou à transformer ?</p>
+  <div class="small">Présentez-nous votre projet et nous vous orienterons vers l'accompagnement le plus adapté.</div>
+  <a href="#contact" class="btn btn--primary">Présenter mon projet</a>
 </section>
 
-<!-- TOUR -->
+<!-- METHODE -->
+<section class="sec methode" id="methode">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow reveal">Notre méthode</div>
+      <h2 class="reveal d1">Une méthode claire avant chaque transformation.</h2>
+      <p class="lead reveal d2">Un intérieur réussi ne dépend pas seulement du goût. Il dépend d'une lecture précise de l'espace, des usages, des contraintes et des décisions à prendre avant les travaux.</p>
+    </div>
+    <div class="steps reveal">
+      <div class="step"><span class="n">01</span><h3>Analyse du projet</h3><p>Nous comprenons votre besoin, le type d'espace, les usages, les contraintes, les délais et les objectifs du projet.</p></div>
+      <div class="step"><span class="n">02</span><h3>Direction artistique</h3><p>Nous définissons l'ambiance, les couleurs, les matériaux, le mobilier, les références et le niveau de finition attendu.</p></div>
+      <div class="step"><span class="n">03</span><h3>Plans d'aménagement</h3><p>Nous organisons les espaces, les circulations, les volumes, les zones fonctionnelles et la cohérence générale.</p></div>
+      <div class="step"><span class="n">04</span><h3>Visualisation 3D</h3><p>Nous produisons des rendus réalistes pour vous permettre de voir le projet avant sa réalisation.</p></div>
+      <div class="step"><span class="n">05</span><h3>Dossier de conception</h3><p>Nous préparons les éléments nécessaires pour cadrer les décisions, les artisans, les fournisseurs ou l'équipe chantier.</p></div>
+      <div class="step"><span class="n">06</span><h3>Accompagnement projet</h3><p>Selon la mission choisie, nous vous accompagnons dans les ajustements, les échanges techniques et la coordination.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA après méthode -->
+<section class="cta-strip">
+  <p>Votre projet mérite une <span class="em">vision claire</span> avant les travaux.</p>
+  <a href="#contact" class="btn btn--primary">Présenter mon projet</a>
+</section>
+
+<!-- REALISATIONS -->
+<section class="sec projects" id="projects">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow reveal">Sélection de projets</div>
+      <h2 class="reveal d1">Réalisations</h2>
+      <p class="lead reveal d2">Découvrez une sélection d'espaces conçus pour allier esthétique, confort, usage et cohérence.</p>
+    </div>
+
+    <div class="case reveal">
+      <div class="ph"><img src="img/proj-living.jpg" alt="Séjour contemporain"></div>
+      <div class="txt"><div class="tag">Résidentiel privé</div><h3>Séjour contemporain</h3>
+        <div class="row"><b>Mission</b><span>Repenser l'espace de vie, améliorer la circulation et créer une ambiance chaleureuse, élégante et cohérente.</span></div>
+        <div class="row"><b>Livrables</b><span>Plan d'aménagement, direction artistique, rendus 3D et sélection matériaux.</span></div>
+      </div>
+    </div>
+
+    <div class="case reveal">
+      <div class="ph"><img src="img/proj-bedroom.jpg" alt="Chambre parentale"></div>
+      <div class="txt"><div class="tag">Résidentiel privé</div><h3>Chambre parentale</h3>
+        <div class="row"><b>Mission</b><span>Concevoir une suite intime, apaisante et haut de gamme, avec une attention portée aux matières, à la lumière et au confort.</span></div>
+        <div class="row"><b>Livrables</b><span>Ambiance intérieure, mobilier, rendus 3D, couleurs et matériaux.</span></div>
+      </div>
+    </div>
+
+    <div class="case reveal">
+      <div class="ph"><img src="img/proj-office.jpg" alt="Espaces de travail"></div>
+      <div class="txt"><div class="tag">Bureaux &amp; espaces professionnels</div><h3>Espaces de travail</h3>
+        <div class="row"><b>Mission</b><span>Créer un environnement de travail structuré, élégant et crédible, adapté aux réunions, à la concentration et à l'image de l'entreprise.</span></div>
+        <div class="row"><b>Livrables</b><span>Plans d'aménagement, direction artistique, rendus 3D et proposition mobilier.</span></div>
+      </div>
+    </div>
+
+    <div class="case reveal">
+      <div class="ph"><img src="img/proj-kids.jpg" alt="Univers ludique"></div>
+      <div class="txt"><div class="tag">Espace enfant / résidentiel</div><h3>Univers ludique</h3>
+        <div class="row"><b>Mission</b><span>Concevoir un espace doux, fonctionnel et visuellement fort, pensé pour le confort, le rangement et l'imaginaire.</span></div>
+        <div class="row"><b>Livrables</b><span>Ambiance, mobilier sur mesure, rendus 3D et choix couleurs.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA après réalisations -->
+<section class="cta-strip">
+  <p>Vous souhaitez une conception <span class="em">adaptée</span> à votre espace ?</p>
+  <a href="#contact" class="btn btn--primary">Présenter mon projet</a>
+</section>
+
+<!-- VISITE 360 -->
 <section class="tour">
   <div class="wrap">
     <div class="eyebrow reveal">Expérience immersive</div>
-    <h2 class="reveal d1">Entrez dans nos espaces<br>en <em>visite 360°</em></h2>
-    <p class="reveal d2">Explorez nos projets pièce par pièce, comme si vous y étiez. Une expérience que peu d'agences proposent.</p>
-    <div class="reveal d2"><a class="btn" href="https://www.coohom.com/pub/tool/panorama/show?obsPlanId=3FO3BVILVGMB&locale=en_US" target="_blank" data-hover>Lancer la visite</a></div>
+    <h2 class="reveal d1">Entrez dans nos espaces en <span class="em">visite 360°</span></h2>
+    <p class="reveal d2">Explorez nos projets comme si vous y étiez. La visite immersive permet de mieux comprendre les volumes, les ambiances et les détails avant la réalisation.</p>
+    <a href="https://www.coohom.com/pub/tool/panorama/show?obsPlanId=3FO3BVILVGMB&locale=en_US" target="_blank" rel="noopener" class="btn btn--ghost reveal d2">Lancer la visite</a>
   </div>
 </section>
 
 <!-- CONTACT -->
-<section class="contact wrap" id="contact">
-  <div class="eyebrow reveal">Contact</div>
-  <div class="grid">
-    <h2 class="reveal d1">Donnons vie<br>à votre <em>projet.</em></h2>
-    <div class="info reveal d2">
-      <p><strong>DECOBA Design</strong><br>Architecture d'intérieur & design haut de gamme</p>
-      <p>Dakar — Sénégal · International</p>
-      <p><a href="mailto:info@decobadesign.com"><strong>info@decobadesign.com</strong></a></p>
-      <p><a href="tel:+221787458620"><strong>+221 78 745 86 20</strong></a></p>
-      <div style="margin-top:26px"><a class="btn" href="mailto:info@decobadesign.com" data-hover>Prendre rendez-vous</a></div>
+<section class="sec contact" id="contact">
+  <div class="wrap grid">
+    <div>
+      <div class="eyebrow reveal">Contact</div>
+      <h2 class="reveal d1">Donnons vie à votre <span class="em">projet.</span></h2>
+      <p class="intro-txt reveal d2">Vous avez un espace à concevoir, rénover ou valoriser ? Envoyez-nous les premières informations sur votre projet. Nous vous répondrons rapidement pour comprendre votre besoin et vous orienter vers l'accompagnement le plus adapté.</p>
+      <div class="direct reveal d2">
+        Vous pouvez également nous contacter directement :<br>
+        <a href="tel:+221787458620">+221 78 745 86 20</a><br>
+        <a href="mailto:info@decobadesign.com">info@decobadesign.com</a><br>
+        Dakar, Sénégal
+      </div>
+    </div>
+    <div class="reveal d1">
+      <form id="projectForm" novalidate>
+        <div class="frow">
+          <div class="field"><label for="nom">Nom</label><input id="nom" name="nom" type="text" required></div>
+          <div class="field"><label for="tel">Téléphone</label><input id="tel" name="tel" type="tel" required></div>
+        </div>
+        <div class="frow">
+          <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" required></div>
+          <div class="field"><label for="type">Type de projet</label>
+            <select id="type" name="type" required>
+              <option value="" selected disabled>Sélectionner…</option>
+              <option>Résidence</option>
+              <option>Bureau</option>
+              <option>Commerce</option>
+              <option>Visualisation 3D</option>
+              <option>Home staging 3D</option>
+              <option>Autre</option>
+            </select>
+          </div>
+        </div>
+        <div class="field"><label for="message">Message</label>
+          <textarea id="message" name="message" placeholder="Décrivez brièvement votre projet : type d'espace, localisation, besoin principal." required></textarea>
+        </div>
+        <div class="field"><label for="fichiers">Ajouter des photos ou plans (optionnel)</label>
+          <input id="fichiers" name="fichiers" type="file" multiple accept="image/*,.pdf">
+          <div class="file-note">Les fichiers se joignent dans votre messagerie à l'étape suivante.</div>
+        </div>
+        <button type="submit" class="btn btn--primary">Envoyer ma demande</button>
+        <div class="form-msg" id="formMsg" role="status"></div>
+      </form>
     </div>
   </div>
-  <footer>
-    <div>© 2025 DECOBA Design</div>
-    <div>Instagram · Facebook · TikTok — @decobadesign</div>
-  </footer>
 </section>
+
+<!-- FOOTER -->
+<footer class="ft">
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <div class="brand">DECOBA <em>design</em></div>
+        <p class="desc">Architecture d'intérieur, design 3D et aménagement sur mesure.</p>
+      </div>
+      <div class="coords">
+        Dakar, Sénégal<br>
+        <a href="https://www.decobadesign.com" target="_blank" rel="noopener">www.decobadesign.com</a><br>
+        <a href="mailto:info@decobadesign.com">info@decobadesign.com</a><br>
+        <a href="tel:+221787458620">+221 78 745 86 20</a>
+      </div>
+      <ul class="links">
+        <li><a href="#top">Accueil</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#projects">Réalisations</a></li>
+        <li><a href="#methode">Méthode</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div><a href="#contact" class="btn btn--primary">Présenter mon projet</a></div>
+    </div>
+    <div class="bottom">
+      <div class="mention">© 2026 DECOBA Design. Tous droits réservés.</div>
+      <div class="mention">Architecture d'intérieur · Dakar &amp; Afrique de l'Ouest</div>
+    </div>
+  </div>
+</footer>
 
 <script>
 (function(){
-  var body=document.body;
-
-  /* ---- LOADER ---- */
-  var loader=document.getElementById('loader'), bar=document.getElementById('loadBar');
-  requestAnimationFrame(function(){ loader.classList.add('show'); });
-  bar.style.transition='width 1.5s cubic-bezier(.16,1,.3,1)';
-  requestAnimationFrame(function(){ setTimeout(function(){ bar.style.width='100%'; },120); });
-  function endLoad(){
-    loader.classList.add('done'); body.classList.remove('loading');
-    document.getElementById('hero').classList.add('in');
-    setTimeout(function(){ loader.style.display='none'; },1200);
-  }
-  setTimeout(endLoad,1900);
-
-  /* ---- CUSTOM CURSOR ---- */
-  var cur=document.getElementById('cursor'), dot=document.getElementById('cursorDot');
-  var mx=innerWidth/2,my=innerHeight/2,cx=mx,cy=my;
-  if(matchMedia('(hover:hover)').matches){
-    var raf=null;
-    function loop(){
-      cx+=(mx-cx)*.16; cy+=(my-cy)*.16;
-      cur.style.transform='translate('+cx+'px,'+cy+'px)';
-      if(Math.abs(mx-cx)>.2||Math.abs(my-cy)>.2){ raf=requestAnimationFrame(loop); } else { raf=null; }
-    }
-    addEventListener('mousemove',function(e){ mx=e.clientX;my=e.clientY; dot.style.transform='translate('+mx+'px,'+my+'px)'; if(!raf){ raf=requestAnimationFrame(loop); } });
-    document.querySelectorAll('a,[data-proj],[data-hover]').forEach(function(el){
-      el.addEventListener('mouseenter',function(){ cur.classList.add('grow'); });
-      el.addEventListener('mouseleave',function(){ cur.classList.remove('grow'); });
-    });
-  }
-
-  /* ---- NAV + PARALLAX ---- */
-  var nav=document.getElementById('nav'), hero=document.getElementById('hero');
-  var heroImg=hero.querySelector('.bg'), projImgs=[].slice.call(document.querySelectorAll('.proj .ph img'));
+  /* Nav solid au scroll + parallax hero (léger) */
+  var nav=document.getElementById('nav');
+  var heroImg=document.querySelector('.hero .bg img');
+  var caseEls=[].slice.call(document.querySelectorAll('.projects .case'));
   var vh=innerHeight, ticking=false;
-  var projEls=[].slice.call(document.querySelectorAll('.proj'));
   function update(){
     var y=scrollY;
-    nav.classList.toggle('solid', y>vh*.75);
-    if(heroImg){ heroImg.style.transform='translateY('+(y*.22)+'px)'; }
-    projEls.forEach(function(p){
-      var r=p.getBoundingClientRect();
-      if(r.top < vh*0.92){ p.classList.add('in'); }   // garantit l'apparition au défilement
-      var img=p.querySelector('.ph img');
-      if(img && r.bottom>0 && r.top<vh){
-        var prog=(r.top-vh)/-(vh+r.height);
-        img.style.transform='scale(1.1) translateY('+((prog-.5)*14)+'%)';
-      }
-    });
+    nav.classList.toggle('solid', y>60);
+    if(heroImg){ heroImg.style.transform='scale(1.06) translateY('+(y*.12)+'px)'; }
+    caseEls.forEach(function(c){ if(c.getBoundingClientRect().top < vh*0.92) c.classList.add('in'); });
     ticking=false;
   }
   addEventListener('scroll',function(){ if(!ticking){ requestAnimationFrame(update); ticking=true; } },{passive:true});
   addEventListener('resize',function(){ vh=innerHeight; update(); });
-  update();
 
-  /* ---- REVEAL + PROJECT CLIP ---- */
+  /* Reveal au scroll */
   var io=new IntersectionObserver(function(en){
     en.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
-  },{threshold:.16});
-  document.querySelectorAll('.reveal,.proj').forEach(function(el){ io.observe(el); });
-  // Filet de sécurité : si l'observateur ne se déclenche pas, on révèle quand même
-  setTimeout(function(){ projEls.forEach(function(p){ if(!p.classList.contains('in')) p.classList.add('in'); }); }, 2600);
+  },{threshold:.14});
+  document.querySelectorAll('.reveal,.projects .case').forEach(function(el){ io.observe(el); });
+  setTimeout(function(){ caseEls.forEach(function(c){ c.classList.add('in'); }); },2600); // filet de sécurité
+  update();
 
-  /* ---- SERVICES HOVER IMAGE ---- */
-  var hov=document.getElementById('srvHover'), hovImg=document.getElementById('srvHoverImg');
-  if(matchMedia('(hover:hover)').matches){
-    document.querySelectorAll('.srv-row').forEach(function(row){
-      row.addEventListener('mouseenter',function(){ hovImg.src=row.dataset.img; hov.classList.add('on'); });
-      row.addEventListener('mouseleave',function(){ hov.classList.remove('on'); });
-      row.addEventListener('mousemove',function(e){ hov.style.left=e.clientX+'px'; hov.style.top=e.clientY+'px'; });
-    });
-  }
+  /* Formulaire : envoi par email (sans backend, fonctionne partout) */
+  var form=document.getElementById('projectForm'), msg=document.getElementById('formMsg');
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    if(!form.checkValidity()){ msg.textContent='Merci de compléter les champs requis.'; form.reportValidity(); return; }
+    var v=function(id){ return (document.getElementById(id).value||'').trim(); };
+    var files=document.getElementById('fichiers').files;
+    var subject='Nouveau projet — '+v('nom')+' · '+v('type');
+    var body=
+      'Nom : '+v('nom')+'\n'+
+      'Téléphone : '+v('tel')+'\n'+
+      'Email : '+v('email')+'\n'+
+      'Type de projet : '+v('type')+'\n\n'+
+      'Message :\n'+v('message')+'\n';
+    if(files && files.length){ body+='\n('+files.length+' fichier(s) à joindre — pensez à les ajouter en pièce jointe dans votre messagerie.)\n'; }
+    msg.textContent='Votre messagerie va s’ouvrir pour finaliser l’envoi…';
+    window.location.href='mailto:info@decobadesign.com?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+  });
 })();
 </script>
 </body>
