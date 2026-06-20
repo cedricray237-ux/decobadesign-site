@@ -154,13 +154,24 @@ nav ul a:hover::after{width:100%}
 
 /* ---------- CONTACT ---------- */
 .contact{padding:13vh 0 0}
-.contact h2{font-size:clamp(2.8rem,9vw,8rem);font-weight:300;line-height:.96}
+.contact h2{font-size:clamp(2.6rem,6.5vw,5rem);font-weight:300;line-height:.98}
 .contact h2 em{font-style:italic;color:var(--rust-light)}
-.contact .grid{display:grid;grid-template-columns:1.2fr .8fr;gap:6vw;align-items:end;margin-top:6vh}
+.contact .grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:6vw;align-items:start;margin-top:6vh}
 .contact .info p{color:var(--cream-dim);margin-bottom:14px}
 .contact .info strong{color:var(--cream);font-weight:400}
 .contact .info a:hover{color:var(--rust-light)}
-@media(max-width:820px){.contact .grid{grid-template-columns:1fr;gap:6vh}}
+.contact .intro-txt{color:var(--cream-dim);margin:22px 0 26px;max-width:42ch}
+form .frow{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+form label{display:block;font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+form .field{margin-bottom:18px}
+form input,form select,form textarea{width:100%;background:var(--bg-2);border:1px solid var(--line);color:var(--cream);
+  font-family:'Jost',sans-serif;font-size:.98rem;font-weight:300;padding:14px 16px;border-radius:2px;transition:border-color .3s}
+form input:focus,form select:focus,form textarea:focus{outline:none;border-color:var(--rust)}
+form textarea{resize:vertical;min-height:120px}
+form .file-note{font-size:.76rem;color:var(--muted);margin-top:6px}
+form .btn{border:1px solid var(--rust);width:100%;margin-top:4px}
+.form-msg{margin-top:14px;font-size:.92rem;color:var(--rust-light);min-height:1.2em}
+@media(max-width:820px){.contact .grid{grid-template-columns:1fr;gap:6vh}form .frow{grid-template-columns:1fr}}
 footer{margin-top:10vh;border-top:1px solid var(--line);padding:36px 0;display:flex;justify-content:space-between;
   flex-wrap:wrap;gap:14px;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
 </style>
@@ -277,13 +288,46 @@ footer{margin-top:10vh;border-top:1px solid var(--line);padding:36px 0;display:f
 <section class="contact wrap" id="contact">
   <div class="eyebrow reveal">Contact</div>
   <div class="grid">
-    <h2 class="reveal d1">Donnons vie<br>à votre <em>projet.</em></h2>
-    <div class="info reveal d2">
-      <p><strong>DECOBA Design</strong><br>Architecture d'intérieur & design haut de gamme</p>
-      <p>Dakar — Sénégal · International</p>
-      <p><a href="mailto:info@decobadesign.com"><strong>info@decobadesign.com</strong></a></p>
-      <p><a href="tel:+221787458620"><strong>+221 78 745 86 20</strong></a></p>
-      <div style="margin-top:26px"><a class="btn" href="mailto:info@decobadesign.com" data-hover>Prendre rendez-vous</a></div>
+    <div>
+      <h2 class="reveal d1">Donnons vie<br>à votre <em>projet.</em></h2>
+      <p class="intro-txt reveal d2">Vous avez un espace à concevoir, rénover ou valoriser ? Envoyez-nous les premières informations sur votre projet. Nous vous répondrons rapidement pour vous orienter vers l'accompagnement le plus adapté.</p>
+      <div class="info reveal d2">
+        <p><strong>DECOBA Design</strong><br>Architecture d'intérieur & design haut de gamme</p>
+        <p>Dakar — Sénégal · International</p>
+        <p><a href="mailto:info@decobadesign.com"><strong>info@decobadesign.com</strong></a></p>
+        <p><a href="tel:+221787458620"><strong>+221 78 745 86 20</strong></a></p>
+      </div>
+    </div>
+    <div class="reveal d1">
+      <form id="projectForm" novalidate>
+        <div class="frow">
+          <div class="field"><label for="nom">Nom</label><input id="nom" name="nom" type="text" required></div>
+          <div class="field"><label for="tel">Téléphone</label><input id="tel" name="tel" type="tel" required></div>
+        </div>
+        <div class="frow">
+          <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" required></div>
+          <div class="field"><label for="type">Type de projet</label>
+            <select id="type" name="type" required>
+              <option value="" selected disabled>Sélectionner…</option>
+              <option>Résidence</option>
+              <option>Bureau</option>
+              <option>Commerce</option>
+              <option>Visualisation 3D</option>
+              <option>Home staging 3D</option>
+              <option>Autre</option>
+            </select>
+          </div>
+        </div>
+        <div class="field"><label for="message">Message</label>
+          <textarea id="message" name="message" placeholder="Décrivez brièvement votre projet : type d'espace, localisation, besoin principal." required></textarea>
+        </div>
+        <div class="field"><label for="fichiers">Ajouter des photos ou plans (optionnel)</label>
+          <input id="fichiers" name="fichiers" type="file" multiple accept="image/*,.pdf">
+          <div class="file-note">Les fichiers se joignent dans votre messagerie à l'étape suivante.</div>
+        </div>
+        <button type="submit" class="btn" data-hover>Envoyer ma demande</button>
+        <div class="form-msg" id="formMsg" role="status"></div>
+      </form>
     </div>
   </div>
   <footer>
@@ -364,6 +408,26 @@ footer{margin-top:10vh;border-top:1px solid var(--line);padding:36px 0;display:f
       row.addEventListener('mouseenter',function(){ hovImg.src=row.dataset.img; hov.classList.add('on'); });
       row.addEventListener('mouseleave',function(){ hov.classList.remove('on'); });
       row.addEventListener('mousemove',function(e){ hov.style.left=e.clientX+'px'; hov.style.top=e.clientY+'px'; });
+    });
+  }
+
+  /* ---- FORMULAIRE : envoi par email (sans backend, fonctionne partout) ---- */
+  var form=document.getElementById('projectForm'), fmsg=document.getElementById('formMsg');
+  if(form){
+    form.addEventListener('submit',function(e){
+      e.preventDefault();
+      if(!form.checkValidity()){ fmsg.textContent='Merci de compléter les champs requis.'; form.reportValidity(); return; }
+      var v=function(id){ return (document.getElementById(id).value||'').trim(); };
+      var files=document.getElementById('fichiers').files;
+      var subject='Nouveau projet — '+v('nom')+' · '+v('type');
+      var body='Nom : '+v('nom')+'\n'+
+               'Téléphone : '+v('tel')+'\n'+
+               'Email : '+v('email')+'\n'+
+               'Type de projet : '+v('type')+'\n\n'+
+               'Message :\n'+v('message')+'\n';
+      if(files && files.length){ body+='\n('+files.length+' fichier(s) à joindre — pensez à les ajouter en pièce jointe dans votre messagerie.)\n'; }
+      fmsg.textContent='Votre messagerie va s’ouvrir pour finaliser l’envoi…';
+      window.location.href='mailto:info@decobadesign.com?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
     });
   }
 })();
